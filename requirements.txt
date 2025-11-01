@@ -11,8 +11,9 @@ torchaudio==2.2.2+cpu
 IPython
 streamlit
 
+mysql-connector-python
 
 
 
-24.2dpco
-26.8 dm
+
+

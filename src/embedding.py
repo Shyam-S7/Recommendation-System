@@ -1,4 +1,3 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sentence_transformers import SentenceTransformer
 from gensim.models import Word2Vec
 from sklearn.metrics.pairwise import cosine_similarity
@@ -8,17 +7,7 @@ import os
 from utils import save_pkl
 from data_preprocessing import clean_data
 from logger import logging
-
-"""
-def tfidf_embeddings(content):
-    tfidf = TfidfVectorizer(max_features=1000, stop_words="english")
-    tfidf_matrix = tfidf.fit_transform(
-        content["tags"].apply(lambda x: " ".join(x))
-    ).toarray()
-    tfidf_sim = cosine_similarity(tfidf_matrix)
-    save_pkl(tfidf_sim, "tfidf_similarity.pkl")
-    return tfidf_sim
-"""
+import pandas as pd
 
 
 def sentence_transformer_embeddings(content):
@@ -30,7 +19,6 @@ def sentence_transformer_embeddings(content):
     return sentence_sim
 
 
-# ---------- 3️⃣ Word2Vec Embedding ----------
 def word2vec_embeddings(content):
     corpus = content["tags"].apply(lambda x: x if isinstance(x, list) else x.split())
     w2v_model = Word2Vec(corpus, vector_size=50, window=5, min_count=1, workers=4)
@@ -47,15 +35,13 @@ def word2vec_embeddings(content):
     return w2v_sim
 
 
-logging.info(" Data cleaning completed successfully!")
+logging.info(" Data embedding completed successfully!")
 
-# ---------- Example ----------D:\PROJECTS\ML\Recommendation-System
 
-# if __name__ == "__main__":
-
-content = clean_data()
+content = pd.read_csv(
+    r"D:\PROJECTS\ML\Recommendation-System\data\processed\processed.csv"
+)
 
 print("Running embeddings...")
-# tfidf_embeddings(content)
 sentence_transformer_embeddings(content)
 word2vec_embeddings(content)

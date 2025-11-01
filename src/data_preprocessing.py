@@ -1,10 +1,10 @@
-# from data_ingestion import load_data
 import ast
 import re
 import nltk
 from logger import logging
 from exception import CustomException
 import pandas as pd
+import os
 
 # nltk.download("wordnet")
 # nltk.download("stopwords")
@@ -14,11 +14,8 @@ from nltk.corpus import stopwords
 
 
 def clean_data():
-    df = pd.read_csv(
-        csv_path,
-        usecols=["brand", "colour", "description", "p_attributes", "name", "img"],
-    )
-    # df = load_data()
+    try:
+    df = pd.read_csv(r"D:\PROJECTS\ML\Recommendation-System\data\raw\dataset.csv")
     df.dropna(inplace=True)
     df.drop_duplicates(inplace=True)
 
@@ -88,11 +85,13 @@ def clean_data():
 
 
 cleaned_df = clean_data()
-print(cleaned_df.head())
-cleaned_df.to_csv("preprocessed.csv", index=False)
+datapath = os.path.join("data", "processed")
+os.makedirs(datapath, exist_ok=True)
+cleaned_df.to_csv(os.path.join(datapath, "processed.csv"), index=False)
+
 
 logging.info(f"Cleaned data: {cleaned_df.columns}")
 logging.info(f"Cleaned data: {cleaned_df['tags']}")
 
-# if __name__ == "__main__":
-# python src\data_preprocessing.py
+#
+# python src\data_preprocessing.py  python src/data_ingestion.py

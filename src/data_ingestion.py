@@ -2,27 +2,30 @@ import pandas as pd
 from logger import logging
 from exception import CustomException
 import sys
+from sqlalchemy import create_engine
+import os
 
+try:
 
-def load_data(csv_path=r"D:\PROJECTS\ML\Recommendation-System\data\myntra.csv"):
-    try:
-        df = pd.read_csv(
-            csv_path,
-            usecols=["brand", "colour", "description", "p_attributes", "name", "img"],
-        )
-        logging.info(f" Data loaded successfully with shape {df.shape}")
-        return df
+    user = "root"
+    password = "root"
+    host = "localhost"
+    database = "product_db"
 
-    except Exception as e:
-        logging.info("Exception occured at Data Ingestion stage")
-        raise CustomException(e, sys)
+    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
 
+    query = """
+    SELECT brand, colour, description, p_attributes, name, img
+    FROM products;
+    """
 
-"""
-if __name__ == "__main__":
-    c = load_data()
-    print(c.head())
-    
-    
-    
-"""
+    df = pd.read_sql(query, engine)
+    datapath = os.path.join("data", "raw")
+    os.makedirs(datapath)
+    df.to_csv(os.path.join(datapath, "dataset.csv"), index=False)
+    logging.info("CSV exported successfully!")
+
+    logging.info(f"Data:{df.head()}")
+except Exception as e:
+    logging.info("Exception occured at Data Ingestion stage")
+    raise CustomException(e, sys)

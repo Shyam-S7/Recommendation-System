@@ -3,9 +3,11 @@ import os
 
 
 def save_pkl(obj, filename):
-    """Save any Python object as a pickle file."""
-    os.makedirs("artifacts", exist_ok=True)
-    path = os.path.join("artifacts", filename)
-    with open(path, "wb") as f:
+    artifacts_path = os.path.join("data", "artifacts")  # ✅ "data/artifacts"
+    os.makedirs(artifacts_path, exist_ok=True)  # ✅ creates folder if missing
+
+    full_path = os.path.join(artifacts_path, filename)
+    with open(full_path, "wb") as f:
         pickle.dump(obj, f)
-    print(f"✅ Saved: {path}")
+
+    print(f"✅ Saved: {full_path}")
