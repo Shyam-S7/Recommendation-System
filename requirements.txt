@@ -13,7 +13,8 @@ streamlit
 
 mysql-connector-python
 
-
-
+dvc
+mlflow
+sqlalchemy
 
 

@@ -14,8 +14,9 @@ from nltk.corpus import stopwords
 
 
 def clean_data():
-    try:
-    df = pd.read_csv(r"D:\PROJECTS\ML\Recommendation-System\data\raw\dataset.csv")
+
+    df = pd.read_csv(os.path.join("data", "raw", "dataset.csv"))
+
     df.dropna(inplace=True)
     df.drop_duplicates(inplace=True)
 

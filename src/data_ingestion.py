@@ -21,7 +21,7 @@ try:
 
     df = pd.read_sql(query, engine)
     datapath = os.path.join("data", "raw")
-    os.makedirs(datapath)
+    os.makedirs(datapath, exist_ok=True)
     df.to_csv(os.path.join(datapath, "dataset.csv"), index=False)
     logging.info("CSV exported successfully!")
 
