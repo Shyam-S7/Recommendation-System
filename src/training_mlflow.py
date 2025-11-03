@@ -10,7 +10,7 @@ from logger import logging
 import os
 
 
-def word2vec_embeddings(content, vector_size=50, window=5, min_count=1):
+def word2vec_embeddings(content, vector_size=100, window=5, min_count=1):
     corpus = content["tags"].apply(lambda x: x if isinstance(x, list) else x.split())
     w2v_model = Word2Vec(
         corpus, vector_size=vector_size, window=window, min_count=min_count, workers=4
