@@ -12,14 +12,13 @@ stages:
     deps:
       - src/data_preprocessing.py
       - data/raw/dataset.csv
-    outs:
-      - data/processed/processed.csv
+    #outs:
+     # - data/processed/processed.csv
 
   train:
-    cmd: python src/ml.py
+    cmd: python src/training_mlflow.py
     deps:
-      - src/ml.py
+      - src/training_mlflow.py
       - data/processed/processed.csv
-    outs:
-      - data/artifacts/sentence_similarity.pkl
-      -  data/artifacts/w2v_similarity.pkl
+    #outs:
+     # -  data/artifacts/w2v_similarity.pkl

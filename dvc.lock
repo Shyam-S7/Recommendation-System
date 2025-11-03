@@ -1,0 +1,36 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 28657e65dadb6618dfd73dc80ed56d18
+      size: 855
+    outs:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: 2871bb4f3274d3fd723b0846738085bb
+      size: 15771168
+  preprocess:
+    cmd: python src/data_preprocessing.py
+    deps:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: 2871bb4f3274d3fd723b0846738085bb
+      size: 15771168
+    - path: src/data_preprocessing.py
+      hash: md5
+      md5: f478e7ded27febaed2512a1fb7840c64
+      size: 2933
+  train:
+    cmd: python src/training_mlflow.py
+    deps:
+    - path: data/processed/processed.csv
+      hash: md5
+      md5: 0be63918b790c09162d08328800d03d9
+      size: 8662904
+    - path: src/training_mlflow.py
+      hash: md5
+      md5: 22832963097e255e5d6a97e2d30ee295
+      size: 2325
