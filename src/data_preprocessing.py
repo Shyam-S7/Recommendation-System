@@ -61,7 +61,11 @@ def clean_data():
 
     df["name"] = df["name"].str.replace(r"[^a-zA-Z\s]", "", regex=True).str.strip()
 
-    df["tags"] = df["brand"] + " " + df["description"] + " " + df["attributes"]
+    # Truncate description to prevent word noise (like a dress mentioning 'shoes')
+    df["description"] = df["description"].fillna("").apply(lambda x: " ".join(x.split()[:20]))
+    
+    # Drastically increase importance to brand and name
+    df["tags"] = (df["brand"] + " ") * 5 + (df["name"] + " ") * 10 + df["description"]
     df.drop(columns=["brand", "colour", "description", "attributes"], inplace=True)
 
     lemmatizer = WordNetLemmatizer()

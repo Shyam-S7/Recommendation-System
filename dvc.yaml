@@ -12,13 +12,16 @@ stages:
     deps:
       - src/data_preprocessing.py
       - data/raw/dataset.csv
-    #outs:
-     # - data/processed/processed.csv
-
+    outs:
+      - data/processed/processed.csv
+    
   train:
     cmd: python src/training_mlflow.py
     deps:
       - src/training_mlflow.py
       - data/processed/processed.csv
-    #outs:
-     # -  data/artifacts/w2v_similarity.pkl
+    outs:
+      - data/artifacts/tfidf_vectorizer.pkl
+      - data/artifacts/tfidf_matrix.pkl
+      - data/artifacts/w2v_matrix.pkl
+      - data/artifacts/w2v_model.bin
